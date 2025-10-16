@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const Base_URL = import.meta.env.VITE_BASE_URL;
 const Task_URL = import.meta.env.VITE_TASK_URL;
 
-
 const initialState = {
     tasks:[],
     loading:false,
@@ -28,7 +27,9 @@ const taskSlice = createSlice({
    name: "Task",
    initialState,
    reducers:{
-
+    addTask: (state,action)=>{
+        state.tasks.push(action.payload)
+    }
    }, 
    extraReducers: (builder)=>{
     builder.addCase(fetchTodo?.pending,(state)=>{
@@ -45,4 +46,5 @@ const taskSlice = createSlice({
 })
 
 
+export const { addTask} = taskSlice.actions;
 export default taskSlice.reducer

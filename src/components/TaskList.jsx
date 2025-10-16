@@ -15,19 +15,13 @@ const TaskList = ()=>{
         dispatch(fetchTodo())
     },[dispatch])
 
-    if(loading){
-      <p>Task Loading</p> 
-    }
-    if(error){
-     <p>There is an error as {error}</p> 
-     }
 
      return(
         <div>
             <h1>Tasks</h1>
             <ul className="space-y-4">
                 {
-                    tasks?.map(task=>(
+                    loading ? <p>Task Loading</p> : error ?<p>There is an error as {error}</p>   : tasks?.map(task=>(
                         <li  key={task?.id} className="flex justify-between bg-gray-50 p-4 rounded-md"><div>
                             <h3 className="text-lg font-medium text-gray-800">{task?.title}</h3>
                             {task?.description && <p className="text-gray-600"> {task?.description}</p>}
