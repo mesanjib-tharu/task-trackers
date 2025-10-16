@@ -18,7 +18,7 @@ export const fetchTodo = createAsyncThunk("tasks/fetchTodo", async ()=>{
         id: task?.id,
         title: task?.title,
         description: "",
-        status: task?.completed ?"Completed":"Pending"
+        status: task?.completed ? "Completed" : "Pending"
     }))
 })
 
@@ -29,6 +29,15 @@ const taskSlice = createSlice({
    reducers:{
     addTask: (state,action)=>{
         state.tasks.push(action.payload)
+    },
+    editTask:(state,action)=>{
+        // const {id,title,description,status} = action.payload;
+        state.tasks = state.tasks.map(task=>(
+            task.id === action.payload.id ?action.payload : task
+        ))
+    },
+    deleteTask:(state,action)=>{
+        state.tasks = state.tasks.filter(task=> task.id !==action.payload)
     }
    }, 
    extraReducers: (builder)=>{
@@ -46,5 +55,5 @@ const taskSlice = createSlice({
 })
 
 
-export const { addTask} = taskSlice.actions;
+export const { addTask, editTask, deleteTask} = taskSlice.actions;
 export default taskSlice.reducer

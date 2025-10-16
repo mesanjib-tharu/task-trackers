@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { fetchTodo } from "./features/taskSlice";
+import { deleteTask, fetchTodo } from "./features/taskSlice";
+import TaskEdit from "./TaskEdit";
 
 
 const TaskList = ()=>{
@@ -16,6 +17,10 @@ const TaskList = ()=>{
     },[dispatch])
 
 
+    const handleDelete = (id)=>{
+        dispatch(deleteTask(id))
+    }
+    
      return(
         <div>
             <h1>Tasks</h1>
@@ -24,13 +29,13 @@ const TaskList = ()=>{
                     loading ? <p>Task Loading</p> : error ?<p>There is an error as {error}</p>   : tasks?.map(task=>(
                         <li  key={task?.id} className="flex justify-between bg-gray-50 p-4 rounded-md"><div>
                             <h3 className="text-lg font-medium text-gray-800">{task?.title}</h3>
-                            {task?.description && <p className="text-gray-600"> {task?.description}</p>}
+                            {task?.description && <p className="text-gray-800"> {task?.description}</p>}
                             <p className="mt-1 text-sm font-semibold">
                                 Status: <span className="italic underline">{task?.status}</span></p>
                             </div>
                             <div className="space-x-2">
-                                <button className="px-3 py-1 border border-blue-600  text-gray-600 rounded-md  hover:bg-blue-600 hover:text-white hover:border-blue-800 cursor-pointer">Edit</button>
-                                <button className="px-3 py-1 border border-red-600 text-gray-600 hover:text-white rounded-md hover:bg-red-600 cursor-pointer">Delete</button>
+                                <TaskEdit task={task}/>
+                                <button onClick={()=> handleDelete(task.id)} className="px-3 py-1 border border-red-600 text-gray-600 hover:text-white rounded-md hover:bg-red-600 cursor-pointer">Delete</button>
                             </div>
 
                             </li>
